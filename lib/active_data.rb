@@ -27,12 +27,10 @@ class ActiveData
   end
 
   def self.save_all
-    # TODO track dirty and save changes
-    item_attributes = all.collect do |item|
-      item.attributes
-    end
-    
-    File.open("data/#{name.downcase}s.yml", "w") do |file|
+    # TODO: track dirty and save changes
+    item_attributes = all.collect(&:attributes)
+
+    File.open("data/#{name.downcase}s.yml", 'w') do |file|
       file.write(item_attributes.to_yaml)
     end
   end

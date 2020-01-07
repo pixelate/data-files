@@ -2,7 +2,7 @@
 
 require_relative 'lib/data_files.rb'
 
-unless Dir.exists?(File.join(Dir.pwd, 'data'))
+unless Dir.exist?(File.join(Dir.pwd, 'data'))
   puts 'Could not find data directory in working directory.'
   exit
 end
