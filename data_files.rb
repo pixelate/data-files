@@ -2,6 +2,10 @@
 
 require_relative 'lib/data_files.rb'
 
-MIDDLEMAN_DIRECTORY = '/Users/andreaszecher/Projects/polylists-static'
-data_files = DataFiles.new(MIDDLEMAN_DIRECTORY)
+unless Dir.exists?(File.join(Dir.pwd, 'data'))
+  puts 'Could not find data directory in working directory.'
+  exit
+end
+
+data_files = DataFiles.new(Dir.pwd)
 data_files.prompt
