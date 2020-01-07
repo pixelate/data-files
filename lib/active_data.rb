@@ -26,6 +26,17 @@ class ActiveData
     end
   end
 
+  def self.save_all
+    # TODO track dirty and save changes
+    item_attributes = all.collect do |item|
+      item.attributes
+    end
+    
+    File.open("data/#{name.downcase}s.yml", "w") do |file|
+      file.write(item_attributes.to_yaml)
+    end
+  end
+
   def self.data
     class_variable_get(:@@data)
   end
@@ -36,6 +47,14 @@ class ActiveData
 
   def initialize(attrs = {})
     attrs.each { |key, value| send("#{key}=", value) }
+  end
+
+  def attributes
+    attributes_hash = {}
+    self.class.attributes.each do |attr|
+      attributes_hash[attr] = send(attr)
+    end
+    attributes_hash
   end
 
   def to_s

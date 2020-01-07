@@ -34,4 +34,12 @@ class ActiveDataTest < Minitest::Test
     assert_equal 'Firewatch', Game.where(title: 'Firewatch', year: 2016).first.title
     assert_equal 0, Game.where(title: 'Firewatch', year: 2000).count
   end
+
+  def test_attributes
+    attributes = Game.last.attributes
+    assert attributes.is_a? Hash
+    assert_equal 'Xenon 2: Megablast', attributes['title']
+    assert_equal 'http://www.bitmap-brothers.co.uk/our-games/past/xenon2.htm', attributes['url']
+    assert_equal 1989, attributes['year']
+  end
 end
