@@ -3,18 +3,42 @@
 # Base class for data querying and manipulation.
 class ActiveData
   def self.all
-    data
+    data.collect do |item|
+      new(item)
+    end
   end
 
   def self.first
-    data.first
+    new(data.first)
   end
 
   def self.last
-    data.last
+    new(data.last)
   end
 
   def self.data
     class_variable_get(:@@data)
+  end
+
+  def self.attributes
+    class_variable_get(:@@attributes)
+  end
+
+  def initialize(attrs = {})
+    attrs.each { |key, value| send("#{key}=", value) }
+  end
+
+  def to_s
+    joined_attributes = self.class.attributes.collect do |attr|
+      val = send(attr)
+      val = "\"#{val}\"" if val.is_a? String
+      "#{attr}: #{val || 'nil'}"
+    end.join(', ')
+
+    "#<#{self.class} #{joined_attributes}>"
+  end
+
+  def inspect
+    to_s
   end
 end

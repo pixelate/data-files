@@ -21,7 +21,8 @@ class DataFiles
       filepath = File.join(directory, 'data', filename)
       key = File.basename(filepath, File.extname(filepath))
       data = YAML.safe_load(File.read(filepath))
-      create_class(key.capitalize, data)
+      klass_name = key.capitalize.delete_suffix('s')
+      create_class(klass_name, data)
     end
   end
 
@@ -29,6 +30,8 @@ class DataFiles
     @klass_names << klass_name
     klass = Class.new(ActiveData) do
       class_variable_set(:@@data, data)
+      class_variable_set(:@@attributes, data.first.keys)
+      attr_accessor(*data.first.keys)
     end
 
     Object.const_set(klass_name, klass)
@@ -45,7 +48,7 @@ class DataFiles
     bnd = binding
     while (input = Readline.readline('> ', true))
       begin
-        puts bnd.eval input
+        puts bnd.eval(input)
       rescue StandardError => e
         puts "\e[31m#{e.class}:\e[0m #{e.message}"
       end
