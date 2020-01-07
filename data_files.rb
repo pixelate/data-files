@@ -48,7 +48,7 @@ class DataFiles
     bnd = binding
     while (input = Readline.readline('> ', true))
       begin
-        puts bnd.eval(input)
+        puts bnd.eval(input).to_s
       rescue StandardError => e
         puts "\e[31m#{e.class}:\e[0m #{e.message}"
       end

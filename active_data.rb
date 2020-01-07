@@ -16,6 +16,16 @@ class ActiveData
     new(data.last)
   end
 
+  def self.where(conditions)
+    all.select do |item|
+      selected = true
+      conditions.each do |key, value|
+        selected = false if item.send(key) != value
+      end
+      selected
+    end
+  end
+
   def self.data
     class_variable_get(:@@data)
   end
