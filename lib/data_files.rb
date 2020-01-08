@@ -18,7 +18,11 @@ class DataFiles
 
       filepath = File.join(directory, 'data', filename)
       key = File.basename(filepath, File.extname(filepath))
-      data = YAML.safe_load(File.read(filepath))
+      data = YAML
+        .safe_load(File.read(filepath))
+        .map
+        .each_with_index { |item, index| item.merge(id: index + 1) }
+
       klass_name = key.capitalize.delete_suffix('s')
       create_class(klass_name, data)
     end

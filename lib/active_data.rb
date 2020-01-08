@@ -50,7 +50,7 @@ class ActiveData
   def attributes
     attributes_hash = {}
     self.class.attributes.each do |attr|
-      attributes_hash[attr] = send(attr)
+      attributes_hash[attr] = send(attr) unless attr == :id
     end
     attributes_hash
   end
