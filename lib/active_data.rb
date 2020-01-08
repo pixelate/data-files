@@ -2,6 +2,8 @@
 
 # Base class for data querying and manipulation.
 class ActiveData
+  attr_reader :errors
+
   def self.all
     data.collect do |item|
       new(item)
@@ -27,7 +29,6 @@ class ActiveData
   end
 
   def self.save_all
-    # TODO: track dirty and save changes
     item_attributes = all.map(&:strip).collect(&:attributes)
 
     File.open("data/#{name.downcase}s.yml", 'w') do |file|
@@ -40,11 +41,15 @@ class ActiveData
   end
 
   def self.data=(value)
-    class_variable_set(:@@data, value) 
+    class_variable_set(:@@data, value)
   end
 
   def self.attributes
     class_variable_get(:@@attributes)
+  end
+
+  def self.types
+    class_variable_get(:@@types)
   end
 
   def initialize(attrs = {})
@@ -54,7 +59,7 @@ class ActiveData
   def attributes
     attributes_hash = {}
     self.class.attributes.each do |attr|
-      attributes_hash[attr] = send(attr) unless attr == :id
+      attributes_hash[attr] = send(attr) unless attr == 'id'
     end
     attributes_hash
   end
@@ -63,7 +68,7 @@ class ActiveData
     joined_attributes = self.class.attributes.collect do |attr|
       val = send(attr)
       val = "\"#{val}\"" if val.is_a? String
-      "#{attr}: #{val || 'nil'}"
+      "#{attr}: #{val.nil? ? 'nil' : val}"
     end.join(', ')
 
     "#<#{self.class} #{joined_attributes}>"
@@ -73,15 +78,29 @@ class ActiveData
     to_s
   end
 
+  def valid?
+    @errors = []
+    attributes.each do |key, value|
+      unless self.class.types[key].include?(value.class.name)
+        @errors << "#{key} must be one of the following types: #{self.class.types[key].join(', ')}"
+      end
+    end
+
+    errors.size.zero?
+  end
+
   def save
+    return false unless valid?
+
     self.class.data = self.class.data.map do |item|
-      if item[:id] == id
+      if item['id'] == id
         attributes.merge(id: id)
       else
         item
       end
     end
     self.class.save_all
+    true
   end
 
   def strip

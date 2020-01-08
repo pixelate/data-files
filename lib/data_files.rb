@@ -9,19 +9,16 @@ require_relative 'active_data.rb'
 class DataFiles
   def initialize(directory)
     @klass_names = []
-    load_yaml(directory)
+    parse_data(directory)
   end
 
-  def load_yaml(directory)
+  def parse_data(directory)
     Dir.foreach(File.join(directory, 'data')) do |filename|
       next unless filename.end_with?('.yml')
 
       filepath = File.join(directory, 'data', filename)
       key = File.basename(filepath, File.extname(filepath))
-      data = YAML
-        .safe_load(File.read(filepath))
-        .map
-        .each_with_index { |item, index| item.merge(id: index + 1) }
+      data = load_yaml(filepath)
 
       klass_name = key.capitalize.delete_suffix('s')
       create_class(klass_name, data)
@@ -30,9 +27,12 @@ class DataFiles
 
   def create_class(klass_name, data)
     @klass_names << klass_name
+
+    types = parse_types(data)
     klass = Class.new(ActiveData) do
       class_variable_set(:@@data, data)
       class_variable_set(:@@attributes, data.first.keys)
+      class_variable_set(:@@types, types)
       attr_accessor(*data.first.keys)
     end
 
@@ -60,5 +60,22 @@ class DataFiles
         puts "\e[31m#{e.class}:\e[0m #{e.message}"
       end
     end
+  end
+
+  private
+
+  def load_yaml(filepath)
+    YAML
+      .safe_load(File.read(filepath))
+      .map
+      .each_with_index { |item, index| item.merge('id' => index + 1) }
+  end
+
+  def parse_types(data)
+    types = {}
+    data.first.keys.each do |attr|
+      types[attr] = data.collect { |item| item[attr].class.name }.uniq
+    end
+    types
   end
 end
