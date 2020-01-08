@@ -38,6 +38,7 @@ class ActiveData
   end
 
   def self.save_all
+    sort_by_primary_key
     item_attributes = all.map(&:strip).collect(&:attributes)
 
     File.open("data/#{name.downcase}s.yml", 'w') do |file|
@@ -59,6 +60,12 @@ class ActiveData
 
   def self.types
     class_variable_get(:@@types)
+  end
+
+  def self.sort_by_primary_key
+    self.data = self.data.sort_by do |item|
+      item.values.first&.downcase
+    end
   end
 
   def initialize(attrs = {})
@@ -108,6 +115,14 @@ class ActiveData
         item
       end
     end
+
+    if id.nil?
+      id = next_id 
+      self.class.data << attributes.merge(id: id)
+    end
+
+    # TODO: Validate uniqueness by primary key
+
     self.class.save_all
     true
   end
@@ -127,5 +142,9 @@ class ActiveData
     end
 
     "#{attr} must be #{allowed_types.sort.join(', ')}".sub(/.*\K, /, ' or ')
+  end
+
+  def next_id
+    self.class.data.collect {|item| item['id']}.max + 1
   end
 end

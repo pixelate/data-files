@@ -40,6 +40,13 @@ class ActiveDataTest < Minitest::Test
     assert_nil Game.find_by(title: 'Non-exisitant')
   end
 
+  def test_sort_by_primary_key
+    Game.data.shuffle!
+    Game.sort_by_primary_key
+    assert_equal 'A Light In Chorus', Game.first.title
+    assert_equal 'Xenon 2: Megablast', Game.last.title
+  end
+
   def test_attributes
     attributes = Game.last.attributes
     assert attributes.is_a? Hash
