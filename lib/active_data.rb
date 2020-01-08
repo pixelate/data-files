@@ -39,6 +39,10 @@ class ActiveData
     class_variable_get(:@@data)
   end
 
+  def self.data=(value)
+    class_variable_set(:@@data, value) 
+  end
+
   def self.attributes
     class_variable_get(:@@attributes)
   end
@@ -67,6 +71,17 @@ class ActiveData
 
   def inspect
     to_s
+  end
+
+  def save
+    self.class.data = self.class.data.map do |item|
+      if item[:id] == id
+        attributes.merge(id: id)
+      else
+        item
+      end
+    end
+    self.class.save_all
   end
 
   def strip
