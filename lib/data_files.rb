@@ -74,7 +74,10 @@ class DataFiles
   def parse_types(data)
     types = {}
     data.first.keys.each do |attr|
-      types[attr] = data.collect { |item| item[attr].class.name }.uniq
+      types[attr] = data.collect { |item| item[attr].class.name }
+      types[attr] << 'TrueClass' if types[attr].include?('FalseClass')
+      types[attr] << 'FalseClass' if types[attr].include?('TrueClass')
+      types[attr].uniq!
     end
     types
   end

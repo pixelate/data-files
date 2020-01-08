@@ -1,0 +1,18 @@
+---
+- title: A list
+  user: andreaszecher
+  slug: a-list
+  ordered: true
+  featured: false
+  published_at: '2020-01-08'
+  games:
+  - title: A Light In Chorus
+  - title: Advance Wars
+  - title: Another World
+  - title: 'Animal Crossing: New Leaf'
+  - title: BOXBOY!
+  - title: Commander Keen in Goodbye, Galaxy
+  - title: Donut County
+  - title: Firewatch
+  - title: wipE'out
+  - title: 'Xenon 2: Megablast'

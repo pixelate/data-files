@@ -82,7 +82,7 @@ class ActiveData
     @errors = []
     attributes.each do |key, value|
       unless self.class.types[key].include?(value.class.name)
-        @errors << "#{key} must be one of the following types: #{self.class.types[key].join(', ')}"
+        @errors << validation_error_message(key, self.class.types[key])
       end
     end
 
@@ -108,5 +108,15 @@ class ActiveData
       send("#{attr}=", send(attr).strip) if send(attr).is_a? String
     end
     self
+  end
+
+  private
+
+  def validation_error_message(attr, class_names)
+    allowed_types = class_names.map do |class_name|
+      class_name.gsub('Class', '').downcase
+    end
+
+    "#{attr} must be #{allowed_types.sort.join(', ')}".sub(/.*\K, /, ' or ')
   end
 end

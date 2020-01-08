@@ -54,4 +54,43 @@ class ActiveDataTest < Minitest::Test
     assert_equal 'http://molleindustria.org/historyOfTheGaze/', game.url
     assert_equal 2016, game.year
   end
+
+  def test_valid?
+    game = Game.new
+    refute game.valid?
+
+    game.title = 'Future Unfolding'
+    game.url = 'https://www.futureunfolding.com'
+    game.year = 2000
+    assert game.valid?
+
+    game.title = nil
+    game.url = 10
+    game.year = 'Nineteen-Ninety-Nine'
+    refute game.valid?
+    assert game.errors.include?('title must be string')
+    assert game.errors.include?('url must be nil or string')
+    assert game.errors.include?('year must be integer or nil')
+
+    list = List.new
+    refute list.valid?
+
+    list.title = '1991'
+    list.user = 'andreaszecher'
+    list.slug = '1991'
+    list.ordered = false
+    list.featured = true
+    list.published_at = "2020-01-08"
+    list.games = [
+      {'title' => 'Another World'},
+      {'title' => 'Commander Keen in Goodbye, Galaxy'}
+    ]
+    assert list.valid?
+
+    list.ordered = nil
+    list.games = 'Another World; Commander Keen in Goodbye, Galaxy'
+    refute list.valid?
+    assert list.errors.include?('ordered must be false or true')
+    assert list.errors.include?('games must be array')
+  end
 end
