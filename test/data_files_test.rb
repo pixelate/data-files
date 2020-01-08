@@ -42,4 +42,16 @@ class ActiveDataTest < Minitest::Test
     assert_equal 'http://www.bitmap-brothers.co.uk/our-games/past/xenon2.htm', attributes['url']
     assert_equal 1989, attributes['year']
   end
+
+  def test_strip
+    game = Game.new(
+      title: 'A Short History of the Gaze ',
+      url: ' http://molleindustria.org/historyOfTheGaze/',
+      year: 2016
+    ).strip
+
+    assert_equal 'A Short History of the Gaze', game.title
+    assert_equal 'http://molleindustria.org/historyOfTheGaze/', game.url
+    assert_equal 2016, game.year
+  end
 end

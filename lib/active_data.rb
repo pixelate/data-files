@@ -28,7 +28,7 @@ class ActiveData
 
   def self.save_all
     # TODO: track dirty and save changes
-    item_attributes = all.collect(&:attributes)
+    item_attributes = all.map(&:strip).collect(&:attributes)
 
     File.open("data/#{name.downcase}s.yml", 'w') do |file|
       file.write(item_attributes.to_yaml)
@@ -67,5 +67,12 @@ class ActiveData
 
   def inspect
     to_s
+  end
+
+  def strip
+    self.class.attributes.each do |attr|
+      send("#{attr}=", send(attr).strip) if send(attr).is_a? String
+    end
+    self
   end
 end
