@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'date'
 require 'readline'
 require 'yaml'
 require_relative 'active_data.rb'
@@ -66,7 +67,7 @@ class DataFiles
 
   def load_yaml(filepath)
     YAML
-      .safe_load(File.read(filepath))
+      .safe_load(File.read(filepath), [Date])
       .map
       .each_with_index { |item, index| item.merge('id' => index + 1) }
   end

@@ -86,7 +86,7 @@ class ActiveData
       end
     end
 
-    errors.size.zero?
+    @errors.size.zero?
   end
 
   def save

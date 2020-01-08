@@ -80,17 +80,19 @@ class ActiveDataTest < Minitest::Test
     list.slug = '1991'
     list.ordered = false
     list.featured = true
-    list.published_at = "2020-01-08"
+    list.published_at = Date.new(2020, 1, 8)
     list.games = [
-      {'title' => 'Another World'},
-      {'title' => 'Commander Keen in Goodbye, Galaxy'}
+      { 'title' => 'Another World' },
+      { 'title' => 'Commander Keen in Goodbye, Galaxy' }
     ]
     assert list.valid?
 
     list.ordered = nil
     list.games = 'Another World; Commander Keen in Goodbye, Galaxy'
+    list.published_at = 'Monday'
     refute list.valid?
     assert list.errors.include?('ordered must be false or true')
+    assert list.errors.include?('published_at must be date')
     assert list.errors.include?('games must be array')
   end
 end

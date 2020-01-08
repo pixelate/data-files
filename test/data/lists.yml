@@ -4,7 +4,7 @@
   slug: a-list
   ordered: true
   featured: false
-  published_at: '2020-01-08'
+  published_at: 2020-01-08
   games:
   - title: A Light In Chorus
   - title: Advance Wars
