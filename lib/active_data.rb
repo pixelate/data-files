@@ -28,6 +28,15 @@ class ActiveData
     end
   end
 
+  def self.find_by(conditions)
+    results = where(conditions)
+    if results.size > 0
+      results.first
+    else
+      nil
+    end
+  end
+
   def self.save_all
     item_attributes = all.map(&:strip).collect(&:attributes)
 

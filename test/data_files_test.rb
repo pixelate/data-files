@@ -35,6 +35,11 @@ class ActiveDataTest < Minitest::Test
     assert_equal 0, Game.where(title: 'Firewatch', year: 2000).count
   end
 
+  def test_find_by
+    assert_equal 'Firewatch', Game.find_by(title: 'Firewatch').title
+    assert_nil Game.find_by(title: 'Non-exisitant')
+  end
+
   def test_attributes
     attributes = Game.last.attributes
     assert attributes.is_a? Hash
