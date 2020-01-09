@@ -115,6 +115,19 @@ class ActiveDataTest < Minitest::Test
     assert list.errors.include?('games must be array')
   end
 
+  def test_unique_primary_key_validation_for_new_item
+    game = Game.new(title: 'A Light In Chorus')
+    refute game.valid?
+    assert game.errors.include?('Game with title A Light In Chorus already exists')
+  end
+
+  def test_unique_primary_key_validation_for_existing_item
+    game = Game.last
+    game.title = 'A Light In Chorus'
+    refute game.valid?
+    assert game.errors.include?('Game with title A Light In Chorus already exists')
+  end
+
   def test_save
     Game.stub :save_all, true do
       assert_equal 10, Game.all.count

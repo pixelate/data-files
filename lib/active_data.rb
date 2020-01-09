@@ -67,7 +67,7 @@ class ActiveData
       primary_key_value = item.values.first
       if primary_key_value.is_a? String
         primary_key_value.downcase
-      else 
+      else
         primary_key_value
       end
     end
@@ -101,9 +101,23 @@ class ActiveData
 
   def valid?
     @errors = []
+
+    primary_key = self.class.attributes.first
+    primary_key_values = self.class.data.collect do |item|
+      { item['_id'] => item[primary_key] }
+    end
+
+    primary_key_values.each do |item|
+      item.each do |key, value|
+        if key != @_id && value == send(primary_key)
+          @errors << "#{self.class.name} with #{primary_key} #{send(primary_key)} already exists"
+        end
+      end
+    end
+
     attributes.each do |key, value|
       unless self.class.types[key].include?(value.class.name)
-        @errors << validation_error_message(key, self.class.types[key])
+        @errors << type_validation_error_message(key, self.class.types[key])
       end
     end
 
@@ -113,7 +127,7 @@ class ActiveData
   def save
     return false unless valid?
 
-    self.strip
+    strip
 
     self.class.data = self.class.data.map do |item|
       if item['_id'] == @_id
@@ -128,8 +142,6 @@ class ActiveData
       self.class.data << attributes.merge('_id' => @_id)
     end
 
-    # TODO: Validate uniqueness by primary key
-
     self.class.save_all
     true
   end
@@ -143,7 +155,7 @@ class ActiveData
 
   private
 
-  def validation_error_message(attr, class_names)
+  def type_validation_error_message(attr, class_names)
     allowed_types = class_names.map do |class_name|
       class_name.gsub('Class', '').downcase
     end

@@ -116,3 +116,16 @@ true
 > list.save
 true
 ```
+
+Primary keys must be unique within a YAML file:
+
+```
+> game = Game.new(title: 'Another World')
+#<Game title: "Another World", url: nil, year: nil, _id: nil>
+
+> game.valid?
+false
+
+> game.errors
+["Game with title Another World already exists"]
+```
