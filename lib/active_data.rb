@@ -30,7 +30,7 @@ class ActiveData
 
   def self.find_by(conditions)
     results = where(conditions)
-    if results.size > 0
+    if results.size.positive?
       results.first
     else
       nil
@@ -63,7 +63,7 @@ class ActiveData
   end
 
   def self.sort_by_primary_key
-    self.data = self.data.sort_by do |item|
+    self.data = data.sort_by do |item|
       item.values.first&.downcase
     end
   end
@@ -110,15 +110,15 @@ class ActiveData
 
     self.class.data = self.class.data.map do |item|
       if item['id'] == @id
-        attributes.merge("id" => @id)
+        attributes.merge('id' => @id)
       else
         item
       end
     end
 
     if @id.nil?
-      @id = next_id 
-      self.class.data << attributes.merge("id" => @id)
+      @id = next_id
+      self.class.data << attributes.merge('id' => @id)
     end
 
     # TODO: Validate uniqueness by primary key
@@ -145,6 +145,6 @@ class ActiveData
   end
 
   def next_id
-    self.class.data.collect {|item| item['id']}.compact.max + 1
+    self.class.data.collect { |item| item['id'] }.compact.max + 1
   end
 end

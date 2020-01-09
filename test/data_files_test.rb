@@ -4,7 +4,14 @@ require 'minitest/autorun'
 require_relative '../lib/data_files.rb'
 
 class ActiveDataTest < Minitest::Test
-  DataFiles.new(File.join(Dir.pwd, 'test'))
+  def setup
+    DataFiles.new(File.join(Dir.pwd, 'test'))
+  end
+
+  def teardown
+    Object.send(:remove_const, 'Game')
+    Object.send(:remove_const, 'List')
+  end
 
   def test_all
     all_games = Game.all
@@ -106,5 +113,28 @@ class ActiveDataTest < Minitest::Test
     assert list.errors.include?('ordered must be false or true')
     assert list.errors.include?('published_at must be date')
     assert list.errors.include?('games must be array')
+  end
+
+  def test_save
+    Game.stub :save_all, true do
+      assert_equal 10, Game.all.count
+
+      game = Game.new(title: 'Super Mario Maker 2')
+      game.save
+
+      assert_equal 11, Game.all.count
+      assert_includes Game.data.collect { |item| item['title'] }, 'Super Mario Maker 2'
+
+      game.year = 2019
+      game.save
+
+      assert_equal 11, Game.all.count
+      assert_equal 2019, Game.find_by(title: 'Super Mario Maker 2').year
+
+      invalid_game = Game.new
+      invalid_game.save
+      assert invalid_game.errors.any?
+      assert_equal 11, Game.all.count
+    end
   end
 end
