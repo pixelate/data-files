@@ -5,7 +5,7 @@ require_relative '../lib/data_files.rb'
 
 class ActiveDataTest < Minitest::Test
   def setup
-    DataFiles.new(File.join(Dir.pwd, 'test'))
+    DataFiles.new(File.join(Dir.pwd))
   end
 
   def teardown
