@@ -75,6 +75,7 @@ module DataFiles
     end
 
     def initialize(attrs = {})
+      @_id = nil
       attrs.each { |key, value| send("#{key}=", value) }
     end
 
