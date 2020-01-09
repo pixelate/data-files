@@ -129,7 +129,7 @@ class ActiveDataTest < Minitest::Test
   end
 
   def test_save
-    Game.stub :save_all, true do
+    Game.stub :write_yaml, true do
       assert_equal 10, Game.all.count
 
       game = Game.new(title: 'Super Mario Maker 2')

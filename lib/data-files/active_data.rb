@@ -38,7 +38,7 @@ module DataFiles
       end
     end
 
-    def self.save_all
+    def self.write_yaml
       sort_by_primary_key
       item_attributes = all.collect(&:attributes)
 
@@ -143,7 +143,7 @@ module DataFiles
         self.class.data << attributes.merge('_id' => @_id)
       end
 
-      self.class.save_all
+      self.class.write_yaml
       true
     end
 
