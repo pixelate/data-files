@@ -49,9 +49,7 @@ true
 
 ## Normalizing data
 
-Items will ordered in the YAML file by their primary key. The first key in the array in the YAML file is considered the primary key.
-
-In our example the primary key is `title`:
+Items will ordered in the YAML file by their primary key. The first key in the array in the YAML file is considered the primary key. In our example the primary key is `title`:
 
 ```yaml
 ---
@@ -71,4 +69,32 @@ true
 
 > game
 #<Game title: "Bubble Bobble", url: nil, year: nil, _id: 11>
+```
+
+## Validation
+
+Data will be automatically be validated on `save`. The validation logic is derived from the exisiting values in the YAML files.
+
+```ruby
+> list = List.new(title: nil, user: 1, slug: false, ordered: "yes", featured: "no", published_at: "today", games: "A Light In Chorus, Advanced Wars")
+#<List title: nil, user: 1, slug: false, ordered: "yes", featured: "no", published_at: "today", games: "A Light In Chorus, Advanced Wars", _id: nil>
+
+> list.save
+false
+
+> list.errors
+["title must be string", "user must be string", "slug must be string", "ordered must be false or true", "featured must be false or true", "published_at must be date", "games must be array"]
+```
+
+Here's an example for a valid `List` item. See [test/data/lists.yml](https://github.com/pixelate/data-files/blob/master/test/data/lists.yml) for the data structure that the validation logic is derived from.
+
+```
+> list = List.new(title: "A list", user: "andreaszecher", slug: "a-list", ordered: true, featured: false, published_at: Date.today, games: [{title: "A Light In Chorus"}, {title: "Advanced Wars"}])
+#<List title: "A list", user: "andreaszecher", slug: "a-list", ordered: true, featured: false, published_at: 2020-01-09, games: [{:title=>"A Light In Chorus"}, {:title=>"Advanced Wars"}], _id: nil>
+> list.valid?
+true
+> list.errors
+[]
+> list.save
+true
 ```
