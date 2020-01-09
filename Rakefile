@@ -1,6 +1,5 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
-require_relative "lib/data_files.rb"
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"

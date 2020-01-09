@@ -1,5 +1,6 @@
 require_relative "../lib/data_files/repl"
 
+desc "REPL for manipulating Middleman Data Files"
 task :"data_files" do |t|
   unless Dir.exist?(File.join(Dir.pwd, 'data'))
     puts 'Could not find data directory in working directory.'
