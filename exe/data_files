@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "data_files"
+require_relative "../lib/data_files/repl.rb"
 
 unless Dir.exist?(File.join(Dir.pwd, 'data'))
   puts 'Could not find data directory in working directory.'
