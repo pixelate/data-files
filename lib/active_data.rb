@@ -64,7 +64,12 @@ class ActiveData
 
   def self.sort_by_primary_key
     self.data = data.sort_by do |item|
-      item.values.first&.downcase
+      primary_key_value = item.values.first
+      if primary_key_value.is_a? String
+        primary_key_value.downcase
+      else 
+        primary_key_value
+      end
     end
   end
 
