@@ -47,6 +47,24 @@ true
 #<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, _id: 12>
 ```
 
+## Updating data
+
+We can also update exisiting items:
+
+```ruby
+> game = Game.where(year: nil).first
+#<Game title: "A Light In Chorus", url: "http://www.alightinchorus.com", year: nil, _id: 1>
+
+> game.year = 2020
+2020
+
+> game.save
+true
+
+> game
+#<Game title: "A Light In Chorus", url: "http://www.alightinchorus.com", year: 2020, _id: 1>
+```
+
 ## Normalizing data
 
 Items will ordered in the YAML file by their primary key. The first key in the array in the YAML file is considered the primary key. In our example the primary key is `title`:
