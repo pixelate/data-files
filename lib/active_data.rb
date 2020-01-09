@@ -109,16 +109,16 @@ class ActiveData
     return false unless valid?
 
     self.class.data = self.class.data.map do |item|
-      if item['id'] == id
-        attributes.merge(id: id)
+      if item['id'] == @id
+        attributes.merge("id" => @id)
       else
         item
       end
     end
 
-    if id.nil?
-      id = next_id 
-      self.class.data << attributes.merge(id: id)
+    if @id.nil?
+      @id = next_id 
+      self.class.data << attributes.merge("id" => @id)
     end
 
     # TODO: Validate uniqueness by primary key
@@ -145,6 +145,6 @@ class ActiveData
   end
 
   def next_id
-    self.class.data.collect {|item| item['id']}.max + 1
+    self.class.data.collect {|item| item['id']}.compact.max + 1
   end
 end
