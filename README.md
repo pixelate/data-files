@@ -88,7 +88,7 @@ false
 
 Here's an example for a valid `List` item. See [test/data/lists.yml](https://github.com/pixelate/data-files/blob/master/test/data/lists.yml) for the data structure that the validation logic is derived from.
 
-```
+```ruby
 > list = List.new(title: "A list", user: "andreaszecher", slug: "a-list", ordered: true, featured: false, published_at: Date.today, games: [{title: "A Light In Chorus"}, {title: "Advanced Wars"}])
 #<List title: "A list", user: "andreaszecher", slug: "a-list", ordered: true, featured: false, published_at: 2020-01-09, games: [{:title=>"A Light In Chorus"}, {:title=>"Advanced Wars"}], _id: nil>
 > list.valid?
