@@ -104,7 +104,7 @@ false
 ["title must be string", "user must be string", "slug must be string", "ordered must be false or true", "featured must be false or true", "published_at must be date", "games must be array"]
 ```
 
-Here's an example for a valid `List` item. See [test/data/lists.yml](https://github.com/pixelate/data-files/blob/master/test/data/lists.yml) for the data structure that the validation logic is derived from.
+Here's an example for a valid `List` item. See [test/data/lists.yml](https://github.com/pixelate/data_files/blob/master/test/data/lists.yml) for the data structure that the validation logic is derived from.
 
 ```ruby
 > list = List.new(title: "A list", user: "andreaszecher", slug: "a-list", ordered: true, featured: false, published_at: Date.today, games: [{title: "A Light In Chorus"}, {title: "Advanced Wars"}])

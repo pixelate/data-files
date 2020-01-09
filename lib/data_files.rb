@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'data-files/repl.rb'
+require_relative 'data_files/repl.rb'
 
 unless Dir.exist?(File.join(Dir.pwd, 'data'))
   puts 'Could not find data directory in working directory.'
