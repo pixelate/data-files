@@ -45,7 +45,7 @@ The new item will be inserted into `games.yml` ordered by its primary key. The f
   year: 
 ```
 
-The internal `id` attribute is not saved to the YAML file. It can however be used for querying:
+The internal `id` attribute is ephemeral and can change between different sessions. It is not saved to the YAML file. It can however be used for querying:
 
 ```ruby
 > Game.find_by(id: 12)
