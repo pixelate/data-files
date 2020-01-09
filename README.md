@@ -36,7 +36,16 @@ true
 #<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, id: 12>
 ```
 
-The new item will be inserted into `games.yml` ordered by its primary key. The first key in an array is considered the primary key, in our example the primary key is `title`. The internal `id` is not saved to the YAML file. It can however be used for querying:
+The new item will be inserted into `games.yml` ordered by its primary key. The first key in an array in the YAML file is considered the primary key, in our example the primary key is `title`:
+
+```yaml
+---
+- title: A Light In Chorus
+  url: http://www.alightinchorus.com
+  year: 
+```
+
+The internal `id` attribute is not saved to the YAML file. It can however be used for querying:
 
 ```ruby
 > Game.find_by(id: 12)
