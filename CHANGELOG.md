@@ -1,3 +1,3 @@
-## [1.0.0.rc1] - 2020-01-09
+## [1.0.0] - 2020-01-09
 ### Added
-- Initial version.
+- Initial release.
