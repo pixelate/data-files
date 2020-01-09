@@ -4,12 +4,26 @@ Written during Lab Week in January 2020 at Mynewsdesk.
 
 This interactive shell allows users to manipulate [Middleman Data Files](https://middlemanapp.com/advanced/data-files/) with an API similar to ActiveRecord.
 
+## Installation
+
+Add the following line to your Gemfile:
+
+```
+gem 'data_files'
+```
+
+Then run:
+
+```
+bundle install
+````
+
 ## Getting Started
 
 To start the interactive shell run the following command from your Middleman project directory:
 
 ```
-> rake data_files
+> bundle exec data_files
 ```
 
 ## Querying data
