@@ -39,7 +39,7 @@ class ActiveData
 
   def self.save_all
     sort_by_primary_key
-    item_attributes = all.map(&:strip).collect(&:attributes)
+    item_attributes = all.collect(&:attributes)
 
     File.open("data/#{name.downcase}s.yml", 'w') do |file|
       file.write(item_attributes.to_yaml)
@@ -107,6 +107,8 @@ class ActiveData
 
   def save
     return false unless valid?
+
+    self.strip
 
     self.class.data = self.class.data.map do |item|
       if item['id'] == @id
