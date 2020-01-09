@@ -75,7 +75,7 @@ class ActiveData
   def attributes
     attributes_hash = {}
     self.class.attributes.each do |attr|
-      attributes_hash[attr] = send(attr) unless attr == 'id'
+      attributes_hash[attr] = send(attr) unless attr == '_id'
     end
     attributes_hash
   end
@@ -111,16 +111,16 @@ class ActiveData
     self.strip
 
     self.class.data = self.class.data.map do |item|
-      if item['id'] == @id
-        attributes.merge('id' => @id)
+      if item['_id'] == @_id
+        attributes.merge('_id' => @_id)
       else
         item
       end
     end
 
-    if @id.nil?
-      @id = next_id
-      self.class.data << attributes.merge('id' => @id)
+    if @_id.nil?
+      @_id = next_id
+      self.class.data << attributes.merge('_id' => @_id)
     end
 
     # TODO: Validate uniqueness by primary key
@@ -147,6 +147,6 @@ class ActiveData
   end
 
   def next_id
-    self.class.data.collect { |item| item['id'] }.compact.max + 1
+    self.class.data.collect { |item| item['_id'] }.compact.max + 1
   end
 end

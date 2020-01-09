@@ -69,7 +69,7 @@ class DataFiles
     YAML
       .safe_load(File.read(filepath), [Date])
       .map
-      .each_with_index { |item, index| item.merge('id' => index + 1) }
+      .each_with_index { |item, index| item.merge('_id' => index + 1) }
   end
 
   def parse_types(data)
