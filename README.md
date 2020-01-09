@@ -4,6 +4,8 @@ Written during Lab Week in January 2020 at Mynewsdesk.
 
 This interactive shell allows users to manipulate [Middleman Data Files](https://middlemanapp.com/advanced/data-files/) with an API similar to ActiveRecord.
 
+## Querying data
+
 Given a file located in `data/games.yml` in a Middleman project directory, we can query our data in different ways:
 
 ```ruby
@@ -23,6 +25,15 @@ Given a file located in `data/games.yml` in a Middleman project directory, we ca
 10
 ```
 
+The internal `_id` attribute is ephemeral and can change between different sessions. It is not saved to the YAML file. It can however be used for querying:
+
+```ruby
+> Game.find_by(_id: 12)
+#<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, _id: 12>
+```
+
+## Creating new data
+
 We can add new items to our data file:
 
 ```ruby
@@ -36,20 +47,17 @@ true
 #<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, _id: 12>
 ```
 
-The new item will be inserted into `games.yml` ordered by its primary key. The first key in an array in the YAML file is considered the primary key, in our example the primary key is `title`:
+## Normalizing data
+
+Items will ordered in the YAML file by their primary key. The first key in the array in the YAML file is considered the primary key.
+
+In our example the primary key is `title`:
 
 ```yaml
 ---
 - title: A Light In Chorus
   url: http://www.alightinchorus.com
   year: 
-```
-
-The internal `_id` attribute is ephemeral and can change between different sessions. It is not saved to the YAML file. It can however be used for querying:
-
-```ruby
-> Game.find_by(_id: 12)
-#<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, _id: 12>
 ```
 
 Leading and trailing whitespace is automatically removed from string attributes on `save`:
