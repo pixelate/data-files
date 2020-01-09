@@ -68,7 +68,7 @@ module DataFiles
 
     def load_yaml(filepath)
       YAML
-        .safe_load(File.read(filepath), [Date])
+        .safe_load(File.read(filepath), permitted_classes: [Date])
         .map
         .each_with_index { |item, index| item.merge('_id' => index + 1) }
     end
