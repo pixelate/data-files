@@ -119,7 +119,7 @@ true
 
 Primary keys must be unique within a YAML file:
 
-```
+```ruby
 > game = Game.new(title: 'Another World')
 #<Game title: "Another World", url: nil, year: nil, _id: nil>
 
