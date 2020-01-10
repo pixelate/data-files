@@ -33,6 +33,8 @@ module DataFiles
     def parse_input(input)
       klass_name, remainder = input.split('.')
       method_name, attribute_name, attribute_value = remainder&.split(REGEX_OPENING_PARENTHESIS_OR_WHITESPACE)
+
+      klass_name = klass_name&.split('=')&.last&.strip
       attribute_name = attribute_name&.sub(':', '')&.strip
       attribute_value = attribute_value&.sub('"', '')&.sub('\'', '')
 

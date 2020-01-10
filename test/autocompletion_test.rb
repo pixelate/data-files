@@ -8,6 +8,15 @@ class AutocompletionTest < Minitest::Test
     @autocompletion = DataFiles::Autocompletion.new
   end
 
+  def test_parse_input_with_assignment
+    parsed = @autocompletion.parse_input('game = Game.where(title: "Fire')
+    assert parsed.valid?
+    assert_equal 'Game', parsed.klass_name
+    assert_equal 'where', parsed.method_name
+    assert_equal 'title', parsed.attribute_name
+    assert_equal 'Fire', parsed.attribute_value
+  end
+
   def test_parse_input_with_value_with_parenthesis_with_double_quotes
     parsed = @autocompletion.parse_input('Game.where(title: "Fire')
     assert parsed.valid?
