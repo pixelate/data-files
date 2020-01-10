@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Base class for data querying and manipulation.
 module DataFiles
+  # Base class for data querying and manipulation.
   class ActiveData
     attr_reader :errors
 

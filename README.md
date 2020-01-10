@@ -54,6 +54,17 @@ The internal `_id` attribute is ephemeral and can change between different sessi
 #<Game title: "Super Mario Maker 2", url: "https://www.nintendo.com/games/detail/super-mario-maker-2-switch/", year: 2019, _id: 12>
 ```
 
+## Autocompletion
+
+The methods `where` and `find_by` support autocompletion for attribute values which can be invoked by pressing the TAB key. If several suggestions are available, the TAB key needs to be pressed twice to show the suggestions.
+
+```ruby
+> Game.where(title: "⇥
+A Light In Chorus                  Another World                      Donut County                       wipE'out
+Advance Wars                       BOXBOY!                            Firewatch                          
+Animal Crossing: New Leaf          Commander Keen in Goodbye, Galaxy  Xenon 2: Megablast
+```
+
 ## Creating new data
 
 We can add new items to our data file:

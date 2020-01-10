@@ -4,10 +4,11 @@ require 'date'
 require 'readline'
 require 'yaml'
 require_relative 'active_data.rb'
+require_relative 'autocompletion.rb'
 
-# Loads all yaml files in given directory, creates ActiveData subclass
-# for each file and provides an interactive shell.
 module DataFiles
+  # Loads all yaml files in given directory, creates ActiveData subclass
+  # for each file and provides an interactive shell.
   class REPL
     def initialize(directory)
       @klass_names = []
@@ -43,6 +44,7 @@ module DataFiles
 
     def prompt
       initial_prompt
+      DataFiles::Autocompletion.new
       read_input
     end
 
